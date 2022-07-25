@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMSService.Data", "SMSServi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMSService.Services", "SMSService.Services\SMSService.Services.csproj", "{BEF42828-D687-4AD0-B2CC-093D7E6104AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SMSService.ServiceModels", "SMSService.ServiceModels\SMSService.ServiceModels.csproj", "{147585F1-8B1F-4714-9830-A41E6CA8048D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{BEF42828-D687-4AD0-B2CC-093D7E6104AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BEF42828-D687-4AD0-B2CC-093D7E6104AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BEF42828-D687-4AD0-B2CC-093D7E6104AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{147585F1-8B1F-4714-9830-A41E6CA8048D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{147585F1-8B1F-4714-9830-A41E6CA8048D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{147585F1-8B1F-4714-9830-A41E6CA8048D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{147585F1-8B1F-4714-9830-A41E6CA8048D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
