@@ -5,7 +5,7 @@ using System.Text;
 
 namespace SMSService.Core.Models
 {
-    internal class Country
+    public class Country
     {
         [AutoId]
         public Guid Id { get; set; }
