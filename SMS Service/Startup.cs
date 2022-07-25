@@ -1,29 +1,24 @@
+using Funq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ServiceStack;
+using ServiceStack.Data;
+using ServiceStack.OrmLite;
+using SMSService.Core.Interfaces;
+using SMSService.Data.Repositories;
+using SMSService.Services.Services;
+using SMSService.Data.Database;
 
 namespace SMS_Service
 {
-    public class Startup
+    public class Startup : ModularStartup
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
+        public new void ConfigureServices(IServiceCollection services)
         {
-            services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -33,24 +28,36 @@ namespace SMS_Service
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
+
+            app.UseServiceStack(new AppHost
             {
-                app.UseExceptionHandler("/Error");
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-            app.UseStaticFiles();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapRazorPages();
+                AppSettings = new NetCoreAppSettings(Configuration)
             });
+        }
+    }
+
+    public class AppHost : AppHostBase
+    {
+        public AppHost() : base("SMS_Service", typeof(SMSServices).Assembly) { }
+
+        // Configure AppHost with the necessary configuration and dependencies
+        public override void Configure(Container container)
+        {
+            SetConfig(new HostConfig
+            {
+                DefaultRedirectPath = "/metadata",
+                DebugMode = AppSettings.Get(nameof(HostConfig.DebugMode), false),
+            });
+
+            container.Register<IDbConnectionFactory>(c => new OrmLiteConnectionFactory(AppSettings.GetString("Database:MySqlDbConnection"), MySqlDialect.Provider));
+
+            container.RegisterAutoWiredAs<SMSRepository, ISMSRepository>().ReusedWithin(ReuseScope.None);
+            container.RegisterAutoWiredAs<CountryRepository, ICountryRepository>().ReusedWithin(ReuseScope.None);
+
+            using (var db = container.Resolve<IDbConnectionFactory>().Open())
+            {
+                Database.Create(db);
+            }
         }
     }
 }

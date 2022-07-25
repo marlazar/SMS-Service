@@ -1,8 +1,19 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <RootNamespace>SMS_Service</RootNamespace>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ServiceStack" Version="6.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SMSService.Core\SMSService.Core.csproj" />
+	<ProjectReference Include="..\SMSService.Data\SMSService.Data.csproj" />
+	<ProjectReference Include="..\SMSService.Services\SMSService.Services.csproj" />
+	<ProjectReference Include="..\SMSService.ServiceModels\SMSService.ServiceModels.csproj" />
+  </ItemGroup>
 
 </Project>
